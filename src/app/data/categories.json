@@ -1,0 +1,47 @@
+[
+  {
+    "id": "cat-food",
+    "name": "Food & Treats",
+    "slug": "food-treats",
+    "description": "Premium cat food, wet food, dry food, and delicious treats for your feline friend",
+    "icon": "🍖",
+    "image": "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400",
+    "productCount": 12
+  },
+  {
+    "id": "cat-toys",
+    "name": "Toys",
+    "slug": "toys",
+    "description": "Interactive toys, scratchers, and catnip toys to keep your cat entertained",
+    "icon": "🎾",
+    "image": "https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400",
+    "productCount": 8
+  },
+  {
+    "id": "cat-health",
+    "name": "Health & Grooming",
+    "slug": "health-grooming",
+    "description": "Grooming tools, supplements, and health care products for a healthy cat",
+    "icon": "💊",
+    "image": "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=400",
+    "productCount": 10
+  },
+  {
+    "id": "cat-accessories",
+    "name": "Accessories",
+    "slug": "accessories",
+    "description": "Beds, collars, carriers, and other essential accessories for your cat",
+    "icon": "🛏️",
+    "image": "https://images.unsplash.com/photo-1560807707-8cc77767d783?w=400",
+    "productCount": 9
+  },
+  {
+    "id": "cat-litter",
+    "name": "Litter & Cleanup",
+    "slug": "litter-cleanup",
+    "description": "Litter boxes, cat litter, and cleaning supplies for easy maintenance",
+    "icon": "🧹",
+    "image": "https://images.unsplash.com/photo-1571566882372-1598d88abd90?w=400",
+    "productCount": 6
+  }
+]
