@@ -1,4 +1,3 @@
-
 You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
 
 ## TypeScript Best Practices
@@ -54,3 +53,52 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Design services around a single responsibility
 - Use the `providedIn: 'root'` option for singleton services
 - Use the `inject()` function instead of constructor injection
+
+## Commit Message Guidelines
+
+Follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification for all commit messages.
+
+### Commit Message Format
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types
+
+- `feat`: A new feature (correlates with MINOR in SemVer)
+- `fix`: A bug fix (correlates with PATCH in SemVer)
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code (white-space, formatting, etc.)
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `perf`: A code change that improves performance
+- `test`: Adding missing tests or correcting existing tests
+- `build`: Changes that affect the build system or external dependencies
+- `ci`: Changes to CI configuration files and scripts
+- `chore`: Other changes that don't modify src or test files
+- `revert`: Reverts a previous commit
+
+### Breaking Changes
+
+- Add `!` after the type/scope to indicate a breaking change: `feat!: description`
+- Or include `BREAKING CHANGE:` in the footer
+
+### Examples
+
+```
+feat(auth): add login functionality
+
+fix: prevent racing of requests
+
+docs: correct spelling in README
+
+feat!: drop support for Node 12
+
+feat(api): add new endpoint
+
+BREAKING CHANGE: removed deprecated methods
+```
