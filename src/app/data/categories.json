@@ -1,0 +1,113 @@
+{
+  "categories": [
+    {
+      "id": "food-treats",
+      "name": "Food & Treats",
+      "slug": "food-treats",
+      "description": "Premium nutrition for your feline friend. From dry kibble to wet food and delicious treats.",
+      "image": "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400",
+      "icon": "🍗",
+      "productCount": 24,
+      "subcategories": [
+        { "id": "dry-food", "name": "Dry Food", "slug": "dry-food", "productCount": 8 },
+        { "id": "wet-food", "name": "Wet Food", "slug": "wet-food", "productCount": 8 },
+        { "id": "treats", "name": "Treats & Snacks", "slug": "treats", "productCount": 6 },
+        { "id": "supplements", "name": "Supplements", "slug": "supplements", "productCount": 2 }
+      ]
+    },
+    {
+      "id": "toys",
+      "name": "Toys",
+      "slug": "toys",
+      "description": "Keep your cat entertained and active with our selection of interactive and fun toys.",
+      "image": "https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400",
+      "icon": "🎾",
+      "productCount": 18,
+      "subcategories": [
+        {
+          "id": "interactive",
+          "name": "Interactive Toys",
+          "slug": "interactive",
+          "productCount": 6
+        },
+        { "id": "scratchers", "name": "Scratchers", "slug": "scratchers", "productCount": 5 },
+        { "id": "catnip-toys", "name": "Catnip Toys", "slug": "catnip-toys", "productCount": 4 },
+        {
+          "id": "balls-chasers",
+          "name": "Balls & Chasers",
+          "slug": "balls-chasers",
+          "productCount": 3
+        }
+      ]
+    },
+    {
+      "id": "health-grooming",
+      "name": "Health & Grooming",
+      "slug": "health-grooming",
+      "description": "Everything you need to keep your cat healthy, clean, and well-groomed.",
+      "image": "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=400",
+      "icon": "🧴",
+      "productCount": 15,
+      "subcategories": [
+        {
+          "id": "brushes-combs",
+          "name": "Brushes & Combs",
+          "slug": "brushes-combs",
+          "productCount": 4
+        },
+        {
+          "id": "shampoos",
+          "name": "Shampoos & Conditioners",
+          "slug": "shampoos",
+          "productCount": 3
+        },
+        { "id": "dental-care", "name": "Dental Care", "slug": "dental-care", "productCount": 4 },
+        { "id": "flea-tick", "name": "Flea & Tick", "slug": "flea-tick", "productCount": 4 }
+      ]
+    },
+    {
+      "id": "accessories",
+      "name": "Accessories",
+      "slug": "accessories",
+      "description": "Beds, carriers, collars, bowls and everything else your cat needs.",
+      "image": "https://images.unsplash.com/photo-1570824104453-508955ab713e?w=400",
+      "icon": "🛏️",
+      "productCount": 20,
+      "subcategories": [
+        { "id": "beds", "name": "Beds & Furniture", "slug": "beds", "productCount": 6 },
+        { "id": "carriers", "name": "Carriers & Travel", "slug": "carriers", "productCount": 4 },
+        {
+          "id": "collars-leashes",
+          "name": "Collars & Leashes",
+          "slug": "collars-leashes",
+          "productCount": 5
+        },
+        {
+          "id": "bowls-feeders",
+          "name": "Bowls & Feeders",
+          "slug": "bowls-feeders",
+          "productCount": 5
+        }
+      ]
+    },
+    {
+      "id": "litter-cleanup",
+      "name": "Litter & Cleanup",
+      "slug": "litter-cleanup",
+      "description": "Litter boxes, cat litter, and cleaning supplies to keep things fresh.",
+      "image": "https://images.unsplash.com/photo-1632236542159-809925128485?w=400",
+      "icon": "🧹",
+      "productCount": 12,
+      "subcategories": [
+        { "id": "litter-boxes", "name": "Litter Boxes", "slug": "litter-boxes", "productCount": 4 },
+        { "id": "cat-litter", "name": "Cat Litter", "slug": "cat-litter", "productCount": 5 },
+        {
+          "id": "cleaning-supplies",
+          "name": "Cleaning Supplies",
+          "slug": "cleaning-supplies",
+          "productCount": 3
+        }
+      ]
+    }
+  ]
+}
