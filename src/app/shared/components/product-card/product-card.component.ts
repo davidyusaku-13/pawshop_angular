@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy, input, inject, output } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, ChangeDetectionStrategy, input, inject, output, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { Product } from '../../../models/product.model';
 import { CartService } from '../../../core/services/cart.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-product-card',
@@ -88,13 +89,15 @@ import { CartService } from '../../../core/services/cart.service';
           class="w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 shadow-sm hover:shadow-md active:scale-95"
           [class]="
             product().stock > 0
-              ? 'bg-orange-600 text-white hover:bg-orange-700'
+              ? addingState() === 'success'
+                ? 'bg-green-600 text-white'
+                : 'bg-orange-600 text-white hover:bg-orange-700'
               : 'bg-gray-100 text-gray-400 cursor-not-allowed'
           "
-          [disabled]="product().stock === 0"
+          [disabled]="product().stock === 0 || addingState() !== 'idle'"
           (click)="onAddToCart($event)"
         >
-          @if (product().stock > 0) {
+          @if (product().stock > 0) { @switch (addingState()) { @case ('idle') {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -109,7 +112,35 @@ import { CartService } from '../../../core/services/cart.service';
               d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
             />
           </svg>
-          Add to Cart } @else { Out of Stock }
+          Add to Cart } @case ('loading') {
+          <svg class="w-5 h-5 animate-spin-once" viewBox="0 0 24 24" fill="none">
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="3"
+            ></circle>
+            <path
+              class="opacity-100"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            ></path>
+          </svg>
+          Adding... } @case ('success') {
+          <svg
+            class="w-5 h-5 animate-checkmark"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path class="checkmark-path" d="M4 12l5 5L20 6" />
+          </svg>
+          Added! } } } @else { Out of Stock }
         </button>
       </div>
     </article>
@@ -119,8 +150,11 @@ export class ProductCardComponent {
   readonly product = input.required<Product>();
   readonly addToCart = output<Product>();
 
+  private readonly router = inject(Router);
   protected readonly cartService = inject(CartService);
+  protected readonly authService = inject(AuthService);
   protected readonly Math = Math;
+  protected readonly addingState = signal<'idle' | 'loading' | 'success'>('idle');
 
   protected getDiscountPercentage(): number {
     const originalPrice = this.product().originalPrice;
@@ -131,7 +165,28 @@ export class ProductCardComponent {
   protected onAddToCart(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    this.cartService.addToCart(this.product());
-    this.addToCart.emit(this.product());
+
+    // Check if user is authenticated
+    if (!this.authService.isAuthenticated()) {
+      sessionStorage.setItem('returnUrl', this.router.url);
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    if (this.addingState() !== 'idle') return;
+
+    this.addingState.set('loading');
+
+    // Spinner completes one full rotation (600ms), then show checkmark
+    setTimeout(() => {
+      this.cartService.addToCart(this.product());
+      this.addToCart.emit(this.product());
+      this.addingState.set('success');
+
+      // Reset to idle after showing checkmark
+      setTimeout(() => {
+        this.addingState.set('idle');
+      }, 1000);
+    }, 600);
   }
 }

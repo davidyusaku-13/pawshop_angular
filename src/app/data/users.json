@@ -1,0 +1,58 @@
+[
+  {
+    "id": "user-1",
+    "email": "john@example.com",
+    "password": "password123",
+    "name": "John Doe",
+    "phone": "+62812345678",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
+    "addresses": [
+      {
+        "id": "addr-1",
+        "label": "Rumah",
+        "recipientName": "John Doe",
+        "phone": "+62812345678",
+        "street": "Jl. Sudirman No. 123",
+        "district": "Tanah Abang",
+        "city": "Jakarta Pusat",
+        "province": "DKI Jakarta",
+        "postalCode": "10220",
+        "isDefault": true
+      }
+    ],
+    "createdAt": "2024-01-15T10:30:00Z"
+  },
+  {
+    "id": "user-2",
+    "email": "jane@example.com",
+    "password": "password123",
+    "name": "Jane Smith",
+    "phone": "+62898765432",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
+    "addresses": [
+      {
+        "id": "addr-2",
+        "label": "Kantor",
+        "recipientName": "Jane Smith",
+        "phone": "+62898765432",
+        "street": "Jl. Gatot Subroto Kav. 45",
+        "district": "Setiabudi",
+        "city": "Jakarta Selatan",
+        "province": "DKI Jakarta",
+        "postalCode": "12930",
+        "isDefault": true
+      }
+    ],
+    "createdAt": "2024-02-20T14:45:00Z"
+  },
+  {
+    "id": "user-3",
+    "email": "budi@example.com",
+    "password": "password123",
+    "name": "Budi Santoso",
+    "phone": "+62811223344",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Budi",
+    "addresses": [],
+    "createdAt": "2024-03-10T09:15:00Z"
+  }
+]

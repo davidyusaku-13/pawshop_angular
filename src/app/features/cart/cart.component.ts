@@ -1,12 +1,90 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
+
+interface ConfirmDialog {
+  isOpen: boolean;
+  title: string;
+  message: string;
+  confirmText: string;
+  type: 'remove' | 'clear';
+  productId?: string;
+}
 
 @Component({
   selector: 'app-cart',
   imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
+    <!-- Confirmation Modal -->
+    @if (dialog().isOpen) {
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <!-- Backdrop -->
+      <div
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+        (click)="closeDialog()"
+      ></div>
+
+      <!-- Modal -->
+      <div
+        class="relative bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all animate-in fade-in zoom-in-95 duration-200"
+      >
+        <div class="p-6">
+          <!-- Icon -->
+          <div
+            class="mx-auto w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-7 h-7 text-red-600"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+              />
+            </svg>
+          </div>
+
+          <!-- Content -->
+          <h3 id="modal-title" class="text-lg font-semibold text-gray-900 text-center mb-2">
+            {{ dialog().title }}
+          </h3>
+          <p class="text-gray-500 text-center text-sm">
+            {{ dialog().message }}
+          </p>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-3 p-6 pt-0">
+          <button
+            type="button"
+            class="flex-1 px-4 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-colors cursor-pointer"
+            (click)="closeDialog()"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="flex-1 px-4 py-2.5 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 active:bg-red-800 transition-colors cursor-pointer"
+            (click)="confirmAction()"
+          >
+            {{ dialog().confirmText }}
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Breadcrumb -->
       <nav class="flex items-center gap-2 text-sm text-gray-500 mb-6">
@@ -45,7 +123,7 @@ import { CartService } from '../../core/services/cart.service';
                   <button
                     type="button"
                     class="px-3 py-1 text-gray-600 hover:bg-gray-100 active:bg-gray-200 transition-colors cursor-pointer"
-                    (click)="cartService.updateQuantity(item.product.id, item.quantity - 1)"
+                    (click)="decreaseQuantity(item.product.id, item.quantity)"
                     aria-label="Decrease quantity"
                   >
                     -
@@ -64,7 +142,7 @@ import { CartService } from '../../core/services/cart.service';
                 <button
                   type="button"
                   class="text-red-500 hover:text-red-700 active:text-red-800 text-sm cursor-pointer transition-colors"
-                  (click)="cartService.removeFromCart(item.product.id)"
+                  (click)="confirmRemove(item.product.id)"
                 >
                   Remove
                 </button>
@@ -100,7 +178,7 @@ import { CartService } from '../../core/services/cart.service';
             <button
               type="button"
               class="text-gray-500 hover:text-red-600 active:text-red-700 text-sm cursor-pointer transition-colors"
-              (click)="cartService.clearCart()"
+              (click)="confirmClearCart()"
             >
               Clear Cart
             </button>
@@ -144,6 +222,7 @@ import { CartService } from '../../core/services/cart.service';
             <button
               type="button"
               class="w-full mt-6 py-3 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700 active:bg-orange-800 transition-colors cursor-pointer"
+              routerLink="/checkout"
             >
               Proceed to Checkout
             </button>
@@ -179,4 +258,61 @@ import { CartService } from '../../core/services/cart.service';
 })
 export class CartComponent {
   protected readonly cartService = inject(CartService);
+
+  protected readonly dialog = signal<ConfirmDialog>({
+    isOpen: false,
+    title: '',
+    message: '',
+    confirmText: '',
+    type: 'remove',
+  });
+
+  protected decreaseQuantity(productId: string, currentQuantity: number): void {
+    if (currentQuantity === 1) {
+      this.openRemoveDialog(productId);
+    } else {
+      this.cartService.updateQuantity(productId, currentQuantity - 1);
+    }
+  }
+
+  protected openRemoveDialog(productId: string): void {
+    this.dialog.set({
+      isOpen: true,
+      title: 'Remove Item',
+      message:
+        'Are you sure you want to remove this item from your cart? This action cannot be undone.',
+      confirmText: 'Remove',
+      type: 'remove',
+      productId,
+    });
+  }
+
+  protected confirmRemove(productId: string): void {
+    this.openRemoveDialog(productId);
+  }
+
+  protected confirmClearCart(): void {
+    this.dialog.set({
+      isOpen: true,
+      title: 'Clear Cart',
+      message:
+        'Are you sure you want to remove all items from your cart? This action cannot be undone.',
+      confirmText: 'Clear All',
+      type: 'clear',
+    });
+  }
+
+  protected closeDialog(): void {
+    this.dialog.update((d) => ({ ...d, isOpen: false }));
+  }
+
+  protected confirmAction(): void {
+    const currentDialog = this.dialog();
+    if (currentDialog.type === 'remove' && currentDialog.productId) {
+      this.cartService.removeFromCart(currentDialog.productId);
+    } else if (currentDialog.type === 'clear') {
+      this.cartService.clearCart();
+    }
+    this.closeDialog();
+  }
 }

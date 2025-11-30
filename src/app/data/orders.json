@@ -1,0 +1,38 @@
+[
+  {
+    "id": "order-1",
+    "orderNumber": "PW-20241115-001",
+    "userId": "user-1",
+    "items": [
+      {
+        "product": {
+          "id": "prod-1",
+          "name": "Royal Canin Indoor Adult",
+          "slug": "royal-canin-indoor-adult",
+          "price": 285000,
+          "images": ["https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400"]
+        },
+        "quantity": 2
+      }
+    ],
+    "shippingAddress": {
+      "id": "addr-1",
+      "label": "Rumah",
+      "recipientName": "John Doe",
+      "phone": "+62812345678",
+      "street": "Jl. Sudirman No. 123",
+      "district": "Tanah Abang",
+      "city": "Jakarta Pusat",
+      "province": "DKI Jakarta",
+      "postalCode": "10220",
+      "isDefault": true
+    },
+    "paymentMethod": "bank-transfer",
+    "status": "delivered",
+    "subtotal": 570000,
+    "shipping": 0,
+    "total": 570000,
+    "createdAt": "2024-11-15T10:30:00Z",
+    "updatedAt": "2024-11-18T14:00:00Z"
+  }
+]

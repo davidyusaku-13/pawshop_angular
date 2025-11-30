@@ -148,11 +148,26 @@ import { ProductFilter } from '../../models/product.model';
         <!-- Product Grid -->
         <main class="flex-1">
           <div class="flex items-center justify-between mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">
-              @if (selectedCategory()) {
-              {{ selectedCategory()?.name }}
-              } @else { All Products }
-            </h1>
+            <div>
+              <h1 class="text-2xl font-bold text-gray-900">
+                @if (selectedCategory()) {
+                {{ selectedCategory()?.name }}
+                } @else { All Products }
+              </h1>
+              @if (filter().search) {
+              <p class="text-sm text-gray-500 mt-1">
+                Search results for:
+                <span class="font-medium text-orange-600">"{{ filter().search }}"</span>
+                <button
+                  type="button"
+                  class="ml-2 text-xs text-gray-400 hover:text-red-500 cursor-pointer"
+                  (click)="updateFilter({ search: '' })"
+                >
+                  ✕ Clear
+                </button>
+              </p>
+              }
+            </div>
             <p class="text-gray-500">{{ filteredProducts().length }} products</p>
           </div>
 
@@ -200,11 +215,21 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
+      const updates: Partial<ProductFilter> = {};
+
       if (params['category']) {
         const category = this.categoryService.getCategoryBySlug(params['category']);
         if (category) {
-          this.filter.update((f) => ({ ...f, categoryId: category.id }));
+          updates.categoryId = category.id;
         }
+      }
+
+      if (params['search']) {
+        updates.search = params['search'];
+      }
+
+      if (Object.keys(updates).length > 0) {
+        this.filter.update((f) => ({ ...f, ...updates }));
       }
     });
   }

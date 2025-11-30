@@ -244,7 +244,7 @@ import { ProductCardComponent } from '../../shared/components/product-card/produ
                 id="email-input"
                 type="email"
                 placeholder="Enter your email"
-                class="flex-1 px-6 py-4 rounded-full focus:outline-none focus:ring-4 focus:ring-orange-400/50 text-gray-900 placeholder-gray-500 shadow-lg"
+                class="flex-1 px-6 py-4 rounded-full focus:outline-none focus:ring-4 focus:ring-orange-400/50 text-gray-900 placeholder-gray-500 shadow-lg bg-white"
               />
               <button
                 type="submit"
