@@ -139,6 +139,29 @@ import { AuthService } from '../../../core/services/auth.service';
                   <p class="font-medium text-gray-900">{{ authService.user()?.name }}</p>
                   <p class="text-sm text-gray-500 truncate">{{ authService.user()?.email }}</p>
                 </div>
+                @if (authService.isAdmin()) {
+                <a
+                  routerLink="/admin"
+                  class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer flex items-center gap-2"
+                  (click)="userMenuOpen.set(false)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-5 h-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
+                    />
+                  </svg>
+                  Admin Panel
+                </a>
+                }
                 <a
                   routerLink="/orders"
                   class="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer flex items-center gap-2"
@@ -311,6 +334,30 @@ import { AuthService } from '../../../core/services/auth.service';
                 <p class="text-sm text-gray-500">{{ authService.user()?.email }}</p>
               </div>
             </div>
+            @if (authService.isAdmin()) {
+            <a
+              routerLink="/admin"
+              routerLinkActive="text-orange-600 bg-orange-50 font-semibold"
+              class="px-3 py-2 rounded-lg text-gray-700 hover:text-orange-600 hover:bg-orange-50 transition-colors font-medium flex items-center gap-2"
+              (click)="mobileMenuOpen.set(false)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-5 h-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
+                />
+              </svg>
+              Admin Panel
+            </a>
+            }
             <a
               routerLink="/orders"
               routerLinkActive="text-orange-600 bg-orange-50 font-semibold"

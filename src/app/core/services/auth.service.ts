@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { User, LoginCredentials, RegisterData } from '../../models/user.model';
+import { User, LoginCredentials, RegisterData, UserRole } from '../../models/user.model';
 import usersData from '../../data/users.json';
 
 interface StoredUser extends User {
@@ -14,7 +14,9 @@ export class AuthService {
   private readonly currentUser = signal<User | null>(null);
 
   readonly isAuthenticated = computed(() => this.currentUser() !== null);
+  readonly isAdmin = computed(() => this.currentUser()?.role === 'admin');
   readonly user = computed(() => this.currentUser());
+  readonly allUsers = computed(() => this.users().map(({ password, ...user }) => user as User));
 
   constructor() {
     this.loadUserFromStorage();
@@ -76,6 +78,7 @@ export class AuthService {
       name: data.name,
       phone: data.phone,
       avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(data.name)}`,
+      role: 'customer',
       addresses: [],
       createdAt: new Date().toISOString(),
     };
